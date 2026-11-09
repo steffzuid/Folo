@@ -1,6 +1,6 @@
 import { EmptyIcon } from "@follow/components/icons/empty.jsx"
 import { useScrollViewElement } from "@follow/components/ui/scroll-area/hooks.js"
-import type { FeedViewType } from "@follow/constants"
+import { FeedViewType } from "@follow/constants"
 import { useTypeScriptHappyCallback } from "@follow/hooks"
 import { shouldRenderScrollMarkReadEndSpacer } from "@follow/shared/scroll-mark-read"
 import { LRUCache } from "@follow/utils/lru-cache"
@@ -13,6 +13,7 @@ import { useTranslation } from "react-i18next"
 import { useEventCallback } from "usehooks-ts"
 
 import { useGeneralSettingKey } from "~/atoms/settings/general"
+import { useUISettingKey } from "~/atoms/settings/ui"
 import { m } from "~/components/common/Motion"
 import { useFeedHeaderTitle } from "~/store/feed/hooks"
 
@@ -76,6 +77,7 @@ export type EntryListProps = {
 const capacity = 3
 const offsetCache = new LRUCache<string, number>(capacity)
 const measurementsCache = new LRUCache<string, VirtualItem[]>(capacity)
+const ESTIMATED_LIST_ITEM_SIZE = 112
 // Prevent scroll list move when press up/down key, the up/down key should be taken over by the shortcut key we defined.
 const handleKeyDown: React.KeyboardEventHandler<HTMLDivElement> = (e) => {
   if (e.key === "ArrowDown" || e.key === "ArrowUp") {
@@ -121,14 +123,19 @@ export const EntryList: FC<EntryListProps> = memo(
       [groupCounts],
     )
 
-    const cacheKey = `${view}-${feedId}`
+    const articleListLayout = useUISettingKey("articleListLayout")
+    // Rows, List and Cards have different heights, so each layout keeps its own measurements
+    const layoutKey = view === FeedViewType.Articles ? articleListLayout : "default"
+    const cacheKey = `${view}-${feedId}-${layoutKey}`
+    const estimatedItemSize =
+      layoutKey === "rows" ? 40 : layoutKey === "cards" ? 360 : ESTIMATED_LIST_ITEM_SIZE
     const isResetScrollPending = shouldApplyScrollResetSignal({
       resetSignal: resetScrollSignal,
       appliedResetSignal: appliedResetScrollSignal,
     })
     const rowVirtualizer = useVirtualizer({
       count: entriesIds.length + 1,
-      estimateSize: () => 112,
+      estimateSize: () => estimatedItemSize,
       overscan: 5,
       gap,
       getScrollElement: () => scrollRef,

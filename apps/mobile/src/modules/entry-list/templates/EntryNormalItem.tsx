@@ -30,6 +30,7 @@ import { EntryDetailScreen } from "@/src/screens/(stack)/entries/[entryId]/Entry
 import { EntryItemContextMenu } from "../../context-menu/entry"
 import { EntryItemSkeleton } from "../EntryListContentArticle"
 import type { EntryExtraData } from "../types"
+import { EntryCardItem, EntryRowItem } from "./EntryArticleLayoutItems"
 import { EntryTranslation } from "./EntryTranslation"
 
 export const EntryNormalItem = memo(
@@ -59,7 +60,9 @@ export const EntryNormalItem = memo(
       translation: state.settings?.translation,
       title: state.title,
       description: state.description,
+      media: state.media,
     }))
+    const articleListLayout = useUISettingKey("articleListLayout")
     const enableTranslation = useGeneralSettingKey("translation")
     const actionLanguage = useActionLanguage()
     const translation = useEntryTranslation({
@@ -94,6 +97,38 @@ export const EntryNormalItem = memo(
       return durationInSeconds && Math.floor(durationInSeconds / 60)
     }, [audioOrVideo?.duration_in_seconds])
     if (!entry) return <EntryItemSkeleton />
+
+    // Rows and Cards apply to the Articles view only; other views keep the list item
+    if (view === FeedViewType.Articles && articleListLayout !== "list") {
+      const layoutProps = {
+        testID: testID ?? `entry-item-${entryId}`,
+        title: entry.title,
+        description: entry.description,
+        translatedTitle: translation?.title,
+        translatedDescription: translation?.description,
+        showTranslation: !!entry.translation,
+        read: entry.read,
+        publishedAt: entry.publishedAt,
+        feed,
+        sourceTitle: feed?.title || from || "Unknown feed",
+        hasTopSeparator,
+        onPress: handlePress,
+      }
+      if (articleListLayout === "rows") {
+        return (
+          <EntryItemContextMenu id={entryId} view={view} isTimelineSource={isTimelineSource}>
+            <EntryRowItem {...layoutProps} />
+          </EntryItemContextMenu>
+        )
+      }
+      const photo = entry.media?.find((media) => media.type === "photo")
+      return (
+        <EntryItemContextMenu id={entryId} view={view} isTimelineSource={isTimelineSource}>
+          <EntryCardItem {...layoutProps} image={photo?.url} blurhash={photo?.blurhash} />
+        </EntryItemContextMenu>
+      )
+    }
+
     return (
       <EntryItemContextMenu id={entryId} view={view} isTimelineSource={isTimelineSource}>
         <ItemPressable
@@ -115,7 +150,7 @@ export const EntryNormalItem = memo(
           {!entry.read && (
             <View
               className={cn(
-                "absolute left-2 size-2 rounded-full bg-red",
+                "absolute left-2 size-2 rounded-full bg-accent",
                 view === FeedViewType.Notifications ? "top-[32]" : "top-[40]",
               )}
             />

@@ -1,3 +1,4 @@
+import { FeedViewType } from "@follow/constants"
 import { useIsLoggedIn } from "@follow/store/user/hooks"
 import type { FC } from "react"
 import { useEffect, useMemo, useRef, useState } from "react"
@@ -18,6 +19,7 @@ import { TIMELINE_VIEW_SELECTOR_HEIGHT } from "@/src/constants/ui"
 import { useIsTabletLayout } from "@/src/lib/responsive"
 import {
   ActionGroup,
+  ArticleLayoutActionButton,
   EntrySortOrderActionButton,
   FeedShareActionButton,
   HomeLeftAction,
@@ -31,6 +33,7 @@ import {
   useEntryListContext,
   useIsTimelineEntrySource,
   useSelectedFeedTitle,
+  useSelectedView,
 } from "./atoms"
 
 export function TimelineHeader({ feedId }: { feedId?: string }) {
@@ -45,6 +48,8 @@ export function TimelineHeader({ feedId }: { feedId?: string }) {
   const isSubscriptions = screenType === "subscriptions"
   const shouldShowEntrySort = isLoggedIn && unreadOnly && isTimelineSource && (isFeed || isTimeline)
   const isTablet = useIsTabletLayout()
+  const selectedView = useSelectedView()
+  const showArticleLayout = selectedView === FeedViewType.Articles && (isFeed || isTimeline)
 
   const { isFetching } = useEntries()
   const shouldHideDuplicatedTitle = isTablet && (isTimeline || isSubscriptions)
@@ -64,6 +69,7 @@ export function TimelineHeader({ feedId }: { feedId?: string }) {
         return () => (
           <View className="flex-row items-center justify-end">
             <ActionGroup>
+              {showArticleLayout && <ArticleLayoutActionButton />}
               {shouldShowEntrySort && <EntrySortOrderActionButton />}
               {isLoggedIn && <UnreadOnlyActionButton />}
               {isLoggedIn && <MarkAllAsReadActionButton />}
@@ -71,7 +77,7 @@ export function TimelineHeader({ feedId }: { feedId?: string }) {
             </ActionGroup>
           </View>
         )
-      }, [feedId, isLoggedIn, shouldShowEntrySort])}
+      }, [feedId, isLoggedIn, shouldShowEntrySort, showArticleLayout])}
       headerHideableBottom={isTimeline || isSubscriptions ? TimelineViewSelector : undefined}
       headerHideableBottomHeight={TIMELINE_VIEW_SELECTOR_HEIGHT}
     />

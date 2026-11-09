@@ -54,6 +54,11 @@ export const getSettingPaidLevel = (namespace: string, key: string) => {
 }
 
 const ACCENT_COLOR_MAP = {
+  // Glass: deep teal on the pale blue ground, a lighter teal in dark mode
+  teal: {
+    light: "#0F5257",
+    dark: "#4FA3A8",
+  },
   orange: {
     light: "#FF6B35",
     dark: "#FF5C00",
@@ -94,5 +99,5 @@ export const getAccentColorValue = (color: AccentColor) => {
     return { light: color, dark: color }
   }
   const preset = ACCENT_COLOR_MAP[color as keyof typeof ACCENT_COLOR_MAP]
-  return preset || ACCENT_COLOR_MAP.orange
+  return preset || ACCENT_COLOR_MAP.teal
 }

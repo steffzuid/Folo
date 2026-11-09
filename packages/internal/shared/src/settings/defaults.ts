@@ -45,7 +45,7 @@ export const defaultGeneralSettings: GeneralSettings = {
 }
 
 export const defaultUISettings: UISettings = {
-  accentColor: "orange",
+  accentColor: "teal",
 
   // Sidebar
   entryColWidth: 450,
@@ -69,7 +69,8 @@ export const defaultUISettings: UISettings = {
   usePointerCursor: false,
 
   // Font
-  uiFontFamily: "system-ui",
+  // Glass interface face, bundled with the desktop app
+  uiFontFamily: "Host Grotesk Variable",
   readerFontFamily: "inherit",
   contentFontSize: 16,
   dateFormat: "default",
@@ -83,6 +84,7 @@ export const defaultUISettings: UISettings = {
   customCSS: "",
 
   // View
+  articleListLayout: "list",
   pictureViewMasonry: true,
   pictureViewImageOnly: false,
   wideMode: false,

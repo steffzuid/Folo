@@ -49,7 +49,6 @@ const AIEnhancedTimelineLayoutImpl = () => {
   const shouldShowFixedAI = isFixedPanelStyle && isAIPanelVisible
   const showEntryContentOnLeft = !showEntryDetailsColumn && hasSelectedEntry
   const shouldRenderRightColumn = showEntryDetailsColumn || shouldShowFixedAI
-  const shouldShowEntryBorder = showEntryDetailsColumn || shouldShowFixedAI
 
   // Mobile-specific logic: disable resizing and hide splitters
   const shouldDisableResize = isMobile
@@ -220,8 +219,7 @@ const AIEnhancedTimelineLayoutImpl = () => {
             <div
               data-hide-in-print={showEntryDetailsColumn ? true : undefined}
               className={cn(
-                "relative flex h-full flex-col overflow-hidden",
-                shouldShowEntryBorder && "border-r",
+                "glass-panel relative flex h-full flex-col overflow-hidden",
                 showEntryDetailsColumn
                   ? "flex-none transition-[flex-basis] duration-200 ease-out will-change-[flex-basis]"
                   : "min-w-0 flex-1",
@@ -258,7 +256,7 @@ const AIEnhancedTimelineLayoutImpl = () => {
                           animate={{ translateY: 0, opacity: 1, scale: 1 }}
                           exit={{ translateY: "50px", opacity: 0, scale: 0.98 }}
                           transition={Spring.smooth(0.3)}
-                          className="pointer-events-auto relative flex h-0 flex-1 flex-col bg-theme-background"
+                          className="pointer-events-auto relative flex h-0 flex-1 flex-col bg-[var(--glass-panel-strong)]"
                         >
                           <EntryContent entryId={realEntryId} className="h-full" />
                         </m.div>
@@ -278,7 +276,7 @@ const AIEnhancedTimelineLayoutImpl = () => {
                     !showEntryContentOnRight && shouldShowFixedAI ? true : undefined
                   }
                   className={cn(
-                    "relative flex h-full min-w-0 flex-col overflow-hidden bg-theme-background",
+                    "glass-panel-strong relative ml-[var(--glass-gutter)] flex h-full min-w-0 flex-col overflow-hidden",
                     showEntryDetailsColumn ? "flex-1 print:w-full" : "flex-none",
                   )}
                   style={rightColumnStyle}

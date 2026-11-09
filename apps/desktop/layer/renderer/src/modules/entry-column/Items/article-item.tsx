@@ -1,8 +1,13 @@
 import { Skeleton } from "@follow/components/ui/skeleton/index.jsx"
 import { cn } from "@follow/utils/utils"
 
+import { useUISettingKey } from "~/atoms/settings/ui"
 import { RelativeTime } from "~/components/ui/datetime"
 import { Media } from "~/components/ui/media/Media"
+import {
+  ArticleCardItem,
+  ArticleRowItem,
+} from "~/modules/entry-column/templates/article-layout-templates"
 import { ListItem } from "~/modules/entry-column/templates/list-item-template"
 import { FeedIcon } from "~/modules/feed/feed-icon"
 import { FeedTitle } from "~/modules/feed/feed-title"
@@ -11,7 +16,19 @@ import { readableContentMaxWidth } from "../styles"
 import type { EntryItemStatelessProps, UniversalItemProps } from "../types"
 
 export function ArticleItem({ entryId, translation }: UniversalItemProps) {
-  return <ListItem entryId={entryId} translation={translation} />
+  const layout = useUISettingKey("articleListLayout")
+
+  switch (layout) {
+    case "rows": {
+      return <ArticleRowItem entryId={entryId} translation={translation} />
+    }
+    case "cards": {
+      return <ArticleCardItem entryId={entryId} translation={translation} />
+    }
+    default: {
+      return <ListItem entryId={entryId} translation={translation} />
+    }
+  }
 }
 
 ArticleItem.wrapperClassName = cn(readableContentMaxWidth, "pl-4 pr-3")

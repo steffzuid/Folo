@@ -5,7 +5,7 @@ import { ChatInterface } from "~/modules/ai-chat/components/layouts/ChatInterfac
 export const Component = () => {
   return (
     <div
-      className="relative flex h-screen w-full flex-col [&_[data-testid=welcome-screen-header]]:-translate-y-24"
+      className="glass-panel-strong relative flex h-full w-full flex-col overflow-hidden [&_[data-testid=welcome-screen-header]]:-translate-y-24"
       style={{ "--ai-chat-layout-width": "65rem" } as React.CSSProperties}
     >
       <AIChatRoot>

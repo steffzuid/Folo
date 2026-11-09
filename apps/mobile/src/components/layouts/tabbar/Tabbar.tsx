@@ -22,7 +22,6 @@ import { accentColor } from "@/src/theme/colors"
 
 import { ThemedBlurView } from "../../common/ThemedBlurView"
 import { Grid } from "../../ui/grid"
-import { BottomTabBarBackgroundContext } from "./contexts/BottomTabBarBackgroundContext"
 import { BottomTabBarVisibleContext } from "./contexts/BottomTabBarVisibleContext"
 
 export const Tabbar: FC<{
@@ -76,26 +75,30 @@ export const Tabbar: FC<{
         setTabBarHeight(tabBarHeight)
       }}
     >
-      <TabBarBackground />
-
-      <PlayerTabBar />
-      <Grid columns={renderTabScreens.length} gap={10} className="mt-[7]">
-        {renderTabScreens.map((route, index) => {
-          const focused = index === selectedIndex
-          const label = route.title ?? ""
-          return (
-            <MemoedTabItem
-              key={route.tabScreenIndex}
-              focused={focused}
-              identifier={route.identifier ?? String(route.tabScreenIndex)}
-              index={index}
-              label={label}
-              renderIcon={route.icon}
-              onPress={onPress}
-            />
-          )
-        })}
-      </Grid>
+      {/* Glass: the tab bar floats as a capsule above the content */}
+      <View className="mx-4 rounded-[30px] shadow-xl shadow-slate-900/20">
+        <View className="overflow-hidden rounded-[30px] border border-white/70 dark:border-white/10">
+          <TabBarBackground />
+          <PlayerTabBar />
+          <Grid columns={renderTabScreens.length} gap={10} className="py-2">
+            {renderTabScreens.map((route, index) => {
+              const focused = index === selectedIndex
+              const label = route.title ?? ""
+              return (
+                <MemoedTabItem
+                  key={route.tabScreenIndex}
+                  focused={focused}
+                  identifier={route.identifier ?? String(route.tabScreenIndex)}
+                  index={index}
+                  label={label}
+                  renderIcon={route.icon}
+                  onPress={onPress}
+                />
+              )
+            })}
+          </Grid>
+        </View>
+      </View>
     </Animated.View>
   )
 }
@@ -258,29 +261,12 @@ const styles = StyleSheet.create({
     height: ICON_SIZE_TALL,
   },
 })
+// The capsule is always frosted, so it stays readable over any content
 const TabBarBackground = () => {
-  const { opacity } = use(BottomTabBarBackgroundContext)
-  const animatedStyle = useAnimatedStyle(() => ({
-    opacity: opacity.value,
-    ...styles.blurEffect,
-  }))
-  const separatorStyle = useAnimatedStyle(() => ({
-    opacity: opacity.value,
-  }))
   return (
     <View style={styles.blurEffect}>
-      <Animated.View style={[styles.blurEffect, animatedStyle]}>
-        <ThemedBlurView style={styles.blurEffect} />
-      </Animated.View>
-      <Animated.View
-        className="absolute top-0 w-full bg-opaque-separator/50"
-        style={[
-          separatorStyle,
-          {
-            height: StyleSheet.hairlineWidth,
-          },
-        ]}
-      />
+      <ThemedBlurView style={styles.blurEffect} />
+      <View style={styles.blurEffect} className="bg-white/50 dark:bg-glass-surface/60" />
     </View>
   )
 }

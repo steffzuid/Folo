@@ -18,7 +18,8 @@ const MacOSVibrancy = <T extends ElementType = "div">({ children, as, ...rest }:
 const Noop = <T extends ElementType = "div">({ children, className, as, ...rest }: Props<T>) => {
   const Component = as || "div"
   return (
-    <Component className={cn("bg-sidebar", className)} {...rest}>
+    // Glass: the sidebar sits directly on the window ground
+    <Component className={cn("bg-transparent", className)} {...rest}>
       {children}
     </Component>
   )

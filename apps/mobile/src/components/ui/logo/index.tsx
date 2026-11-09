@@ -2,9 +2,9 @@ import type { StyleProp, ViewStyle } from "react-native"
 import type { SvgProps } from "react-native-svg"
 import Svg, { Path } from "react-native-svg"
 
-import { accentColor } from "@/src/theme/colors"
+import { brandColor } from "@/src/theme/colors"
 
-export const Logo: React.FC<{ color?: string } & SvgProps> = ({ color = accentColor, ...rest }) => {
+export const Logo: React.FC<{ color?: string } & SvgProps> = ({ color = brandColor, ...rest }) => {
   return (
     <Svg viewBox="0 0 24 24" {...rest}>
       <Path
