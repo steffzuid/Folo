@@ -41,7 +41,13 @@ export default withUIKit({
         mono: "monospace",
       },
       colors: {
-        accent: "#FF5C00",
+        accent: "#16737A",
+        glass: {
+          ground: "#C3D7E5",
+          "ground-dark": "#101518",
+          surface: "#1B2226",
+          ink: "#141414",
+        },
       },
     },
   },

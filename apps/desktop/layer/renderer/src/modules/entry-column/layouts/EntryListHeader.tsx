@@ -42,6 +42,7 @@ import {
 import { useIsPreviewFeed } from "../hooks/useIsPreviewFeed"
 import { useEntryRootState } from "../store/EntryColumnContext"
 import { AppendTaildingDivider } from "./AppendTaildingDivider"
+import { ArticleLayoutSwitch } from "./buttons/ArticleLayoutSwitch"
 import { SwitchToMasonryButton } from "./buttons/SwitchToMasonryButton"
 
 export const EntryListHeader: FC<{
@@ -83,7 +84,7 @@ export const EntryListHeader: FC<{
   const titleInfo = !!headerTitle && (
     <div
       className={clsx(
-        "flex min-w-0 items-center break-all text-lg font-bold leading-tight",
+        "glass-heading flex min-w-0 items-center break-all text-xl leading-tight",
         "-ml-3",
       )}
     >
@@ -218,6 +219,7 @@ export const EntryListHeader: FC<{
 
             <AppendTaildingDivider>
               {view === FeedViewType.Pictures && <SwitchToMasonryButton />}
+              {view === FeedViewType.Articles && <ArticleLayoutSwitch />}
             </AppendTaildingDivider>
 
             {isOnline &&

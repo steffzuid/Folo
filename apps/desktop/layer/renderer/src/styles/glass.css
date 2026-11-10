@@ -1,0 +1,158 @@
+/*
+ * Glass: Folo's interface style.
+ * A pale blue-grey ground with translucent, blurred panels floating on it,
+ * a deep teal accent and Host Grotesk as the interface face.
+ */
+
+@font-face {
+  font-family: "Host Grotesk Variable";
+  font-style: normal;
+  font-display: swap;
+  font-weight: 300 800;
+  src: url(../assets/fonts/host-grotesk/host-grotesk-latin-ext-wght-normal.woff2)
+    format("woff2-variations");
+  unicode-range:
+    U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329,
+    U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F,
+    U+A720-A7FF;
+}
+
+@font-face {
+  font-family: "Host Grotesk Variable";
+  font-style: normal;
+  font-display: swap;
+  font-weight: 300 800;
+  src: url(../assets/fonts/host-grotesk/host-grotesk-latin-wght-normal.woff2)
+    format("woff2-variations");
+  unicode-range:
+    U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329,
+    U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: "Host Grotesk Variable";
+  font-style: italic;
+  font-display: swap;
+  font-weight: 300 800;
+  src: url(../assets/fonts/host-grotesk/host-grotesk-latin-ext-wght-italic.woff2)
+    format("woff2-variations");
+  unicode-range:
+    U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329,
+    U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F,
+    U+A720-A7FF;
+}
+
+@font-face {
+  font-family: "Host Grotesk Variable";
+  font-style: italic;
+  font-display: swap;
+  font-weight: 300 800;
+  src: url(../assets/fonts/host-grotesk/host-grotesk-latin-wght-italic.woff2)
+    format("woff2-variations");
+  unicode-range:
+    U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329,
+    U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+:root,
+[data-theme="light"] {
+  --glass-ground: #c3d7e5;
+  --glass-ground-image: radial-gradient(120% 90% at 0% 0%, #d7e6f0 0%, #c3d7e5 48%, #b5cbdb 100%);
+  --glass-panel: rgb(255 255 255 / 0.5);
+  --glass-panel-strong: rgb(255 255 255 / 0.84);
+  --glass-border: rgb(255 255 255 / 0.85);
+  --glass-shadow: 0 1px 0 rgb(255 255 255 / 0.6) inset, 0 16px 40px -18px rgb(20 44 64 / 0.28);
+  --glass-item-hover: rgb(255 255 255 / 0.45);
+  --glass-item-active: rgb(255 255 255 / 0.92);
+  --glass-item-active-shadow: 0 1px 2px rgb(20 44 64 / 0.08), 0 4px 12px -6px rgb(20 44 64 / 0.18);
+  --glass-control: rgb(255 255 255 / 0.4);
+  --glass-control-border: rgb(255 255 255 / 0.7);
+  --glass-radius: 22px;
+  --glass-gutter: 8px;
+}
+
+[data-theme="dark"] {
+  --glass-ground: #101518;
+  --glass-ground-image: radial-gradient(120% 90% at 0% 0%, #18252c 0%, #101518 55%, #0b0f11 100%);
+  --glass-panel: rgb(27 34 38 / 0.62);
+  --glass-panel-strong: rgb(27 34 38 / 0.94);
+  --glass-border: rgb(255 255 255 / 0.07);
+  --glass-shadow: 0 1px 0 rgb(255 255 255 / 0.04) inset, 0 16px 40px -18px rgb(0 0 0 / 0.6);
+  --glass-item-hover: rgb(255 255 255 / 0.05);
+  --glass-item-active: rgb(255 255 255 / 0.1);
+  --glass-item-active-shadow: none;
+  --glass-control: rgb(255 255 255 / 0.05);
+  --glass-control-border: rgb(255 255 255 / 0.08);
+}
+
+/* The window ground. In the macOS app it tints the native vibrancy instead of covering it. */
+@utility glass-ground {
+  background-color: var(--glass-ground);
+  background-image: var(--glass-ground-image);
+}
+
+html[data-build-type="electron"][data-os="macOS"] .glass-ground {
+  background-color: color-mix(in srgb, var(--glass-ground) 55%, transparent);
+  background-image: none;
+}
+
+/* A floating translucent panel: the timeline list, the sidebar groups */
+@utility glass-panel {
+  background-color: var(--glass-panel);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--glass-radius);
+  box-shadow: var(--glass-shadow);
+  backdrop-filter: blur(30px) saturate(1.6);
+}
+
+/* A near-opaque panel for long reading: the entry content */
+@utility glass-panel-strong {
+  background-color: var(--glass-panel-strong);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--glass-radius);
+  box-shadow: var(--glass-shadow);
+  backdrop-filter: blur(30px) saturate(1.6);
+}
+
+/* A capsule control group: the view switcher, the layout switch */
+@utility glass-capsule {
+  background-color: var(--glass-control);
+  border: 1px solid var(--glass-control-border);
+  border-radius: 9999px;
+}
+
+/* The selected item inside a capsule or a list */
+@utility glass-selected {
+  background-color: var(--glass-item-active);
+  box-shadow: var(--glass-item-active-shadow);
+}
+
+/* Glass headings: medium weight with tight tracking */
+@utility glass-heading {
+  font-weight: 500;
+  letter-spacing: -0.035em;
+}
+
+/* Re-tint the shared surfaces so drawers, modals and the reader match the Glass ground */
+[data-theme="light"] {
+  --fo-sidebar: 205 41% 83%;
+  --fo-sidebar-active: 205 30% 74%;
+}
+
+[data-theme="dark"] {
+  --fo-sidebar: 203 20% 8%;
+  --fo-sidebar-active: 203 16% 14%;
+  --background: 204 19% 10%;
+  --color-background: 21 27 31;
+}
+
+/* List and sidebar selection: a white pill on light glass, a soft lift on dark */
+[data-theme="light"] {
+  --fo-item-active: rgb(255 255 255 / 0.78);
+  --fo-item-hover: rgb(255 255 255 / 0.4);
+}
+
+[data-theme="dark"] {
+  --fo-item-active: rgb(255 255 255 / 0.09);
+  --fo-item-hover: rgb(255 255 255 / 0.05);
+}

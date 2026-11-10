@@ -1,6 +1,7 @@
 @import "tailwindcss" source(none);
 @import "@follow/components/tailwind";
 @import "./base.css";
+@import "./glass.css";
 @import "./additional.css";
 @import "./scrollbar.css";
 @import "./cursor.css";

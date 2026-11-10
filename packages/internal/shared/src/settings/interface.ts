@@ -39,7 +39,8 @@ export interface GeneralSettings {
 }
 
 export type AccentColor =
-  "orange" | "blue" | "green" | "purple" | "pink" | "red" | "yellow" | "gray" | string // Allow custom hex colors
+  "teal" | "orange" | "blue" | "green" | "purple" | "pink" | "red" | "yellow" | "gray" | string // Allow custom hex colors
+export type ArticleListLayout = "rows" | "list" | "cards"
 export interface UISettings {
   accentColor: AccentColor
   customAccentColor?: string // Store custom color value
@@ -71,6 +72,10 @@ export interface UISettings {
   customCSS: string
 
   // view
+  /**
+   * Layout of the Articles timeline: dense text rows, list with thumbnails, or large image cards
+   */
+  articleListLayout: ArticleListLayout
   pictureViewMasonry: boolean
   pictureViewImageOnly: boolean
   wideMode: boolean

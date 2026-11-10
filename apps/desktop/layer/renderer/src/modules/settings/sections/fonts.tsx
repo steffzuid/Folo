@@ -20,6 +20,8 @@ import { SettingItemGroup } from "../section"
 const FALLBACK_FONT = "Default (UI Font)"
 const DEFAULT_FONT = "system-ui"
 const CUSTOM_FONT = "Custom"
+// Bundled with the app in styles/glass.css
+const GLASS_FONT = "Host Grotesk Variable"
 const useFontDataElectron = () => {
   const { t } = useTranslation("settings")
   const { data } = useQuery({
@@ -31,6 +33,7 @@ const useFontDataElectron = () => {
     [
       { label: t("appearance.content_font.default"), value: "inherit" },
       { label: t("appearance.font.system"), value: DEFAULT_FONT },
+      { label: "Host Grotesk", value: GLASS_FONT },
     ] as { label: string; value: string }[]
   ).concat(
     (data || []).map((font) => ({
@@ -45,6 +48,7 @@ const useFontDataWeb = () => {
   return [
     { label: t("appearance.content_font.default"), value: "inherit" },
     { label: t("appearance.font.system"), value: DEFAULT_FONT },
+    { label: "Host Grotesk", value: GLASS_FONT },
     ...[
       // English
       "SN Pro",

@@ -1,3 +1,4 @@
+import type { ArticleListLayout } from "@follow/shared/settings/interface"
 import { getFeedById } from "@follow/store/feed/getter"
 import { useWhoami } from "@follow/store/user/hooks"
 import { cn } from "@follow/utils"
@@ -8,9 +9,13 @@ import { useTranslation } from "react-i18next"
 import { Platform, Pressable, Share, View } from "react-native"
 
 import { setGeneralSetting, useGeneralSettingKey } from "@/src/atoms/settings/general"
+import { setUISetting, useUISettingKey } from "@/src/atoms/settings/ui"
 import { UserAvatar } from "@/src/components/ui/avatar/UserAvatar"
 import { UIBarButton } from "@/src/components/ui/button/UIBarButton"
+import { AlignJustifyCuteReIcon } from "@/src/icons/align_justify_cute_re"
 import { CheckCircleCuteReIcon } from "@/src/icons/check_circle_cute_re"
+import { Grid2CuteReIcon } from "@/src/icons/grid_2_cute_re"
+import { PicCuteReIcon } from "@/src/icons/pic_cute_re"
 import { RoundCuteFiIcon } from "@/src/icons/round_cute_fi"
 import { RoundCuteReIcon } from "@/src/icons/round_cute_re"
 import { ShareForwardCuteReIcon } from "@/src/icons/share_forward_cute_re"
@@ -170,6 +175,48 @@ export const FeedShareActionButton = ({
           }),
         )
       }}
+    />
+  )
+}
+
+const ARTICLE_LAYOUT_ORDER: ArticleListLayout[] = ["rows", "list", "cards"]
+
+/**
+ * Cycles the Articles timeline through Rows, List and Cards.
+ * The icon shows the layout in use.
+ */
+export const ArticleLayoutActionButton = ({ variant = "secondary" }: HeaderActionButtonProps) => {
+  const { t } = useTranslation()
+  const layout = useUISettingKey("articleListLayout")
+  const { size, color } = useButtonVariant({ variant })
+  const nextLayout =
+    ARTICLE_LAYOUT_ORDER[(ARTICLE_LAYOUT_ORDER.indexOf(layout) + 1) % ARTICLE_LAYOUT_ORDER.length]!
+
+  const layoutLabel = {
+    rows: t("operation.article_layout.rows"),
+    list: t("operation.article_layout.list"),
+    cards: t("operation.article_layout.cards"),
+  } satisfies Record<ArticleListLayout, string>
+
+  const icon =
+    layout === "rows" ? (
+      <AlignJustifyCuteReIcon height={size} width={size} color={color} />
+    ) : layout === "cards" ? (
+      <Grid2CuteReIcon height={size} width={size} color={color} />
+    ) : (
+      <PicCuteReIcon height={size} width={size} color={color} />
+    )
+
+  return (
+    <UIBarButton
+      label={t("operation.article_layout.switch_to", { layout: layoutLabel[nextLayout] })}
+      normalIcon={icon}
+      onPress={() => {
+        Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light)
+        setUISetting("articleListLayout", nextLayout)
+        toast.success(t("operation.article_layout.success", { layout: layoutLabel[nextLayout] }))
+      }}
+      overlay={false}
     />
   )
 }

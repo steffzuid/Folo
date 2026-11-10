@@ -164,8 +164,8 @@ const ViewAllSwitchButton: FC<{
       shortcut={shortcut}
       className={cn(
         isActive && item.className,
-        "flex h-11 w-8 shrink-0 grow flex-col items-center gap-1 text-[1.375rem]",
-        ELECTRON ? "hover:!bg-theme-item-hover" : "",
+        "flex h-10 w-8 shrink-0 grow flex-col items-center justify-center gap-0.5 rounded-full text-lg",
+        isActive ? "glass-selected" : ELECTRON ? "hover:!bg-theme-item-hover" : "",
       )}
       {...contextMenuProps}
       onClick={(e) => {
@@ -177,7 +177,7 @@ const ViewAllSwitchButton: FC<{
     >
       {item.icon}
       {showSidebarUnreadCount ? (
-        <div className="text-[0.625rem] font-medium leading-none">
+        <div className="text-[0.625rem] font-medium tabular-nums leading-none">
           {unreadByView > 99 ? <span className="-mr-0.5">99+</span> : unreadByView}
         </div>
       ) : (
@@ -228,8 +228,8 @@ const ViewSwitchButton: FC<{
       shortcut={shortcut}
       className={cn(
         isActive && item.className,
-        "flex h-11 w-8 shrink-0 grow flex-col items-center gap-1 text-[1.375rem]",
-        ELECTRON ? "hover:!bg-theme-item-hover" : "",
+        "flex h-10 w-8 shrink-0 grow flex-col items-center justify-center gap-0.5 rounded-full text-lg",
+        isActive ? "glass-selected" : ELECTRON ? "hover:!bg-theme-item-hover" : "",
         isOver && "border-orange-400 bg-orange-400/60",
       )}
       {...contextMenuProps}
@@ -242,7 +242,7 @@ const ViewSwitchButton: FC<{
     >
       {item.icon}
       {showSidebarUnreadCount ? (
-        <div className="text-[0.625rem] font-medium leading-none">
+        <div className="text-[0.625rem] font-medium tabular-nums leading-none">
           {unreadByView > 99 ? <span className="-mr-0.5">99+</span> : unreadByView}
         </div>
       ) : (

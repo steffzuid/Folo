@@ -158,7 +158,7 @@ function SubviewLayoutInner() {
   })
 
   return (
-    <div className="relative flex size-full">
+    <div className="glass-panel-strong relative flex size-full overflow-hidden">
       {/* Enhanced Header with smooth transitions */}
       <div
         className={cn(

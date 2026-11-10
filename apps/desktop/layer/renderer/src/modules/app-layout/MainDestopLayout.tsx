@@ -180,7 +180,7 @@ export function MainDestopLayout() {
 
         <main
           ref={setMainContainerElement}
-          className="flex min-w-0 flex-1 bg-theme-background pt-[calc(var(--fo-window-padding-top)_-10px)] !outline-none"
+          className="flex min-w-0 flex-1 pb-[var(--glass-gutter)] pr-[var(--glass-gutter)] pt-[max(var(--glass-gutter),calc(var(--fo-window-padding-top,0px)_-_2px))] !outline-none"
           // NOTE: tabIndex for main element can get by `document.activeElement`
           tabIndex={-1}
         >
@@ -246,7 +246,7 @@ const RootContainer = ({
           "--fo-feed-col-w": `${feedColWidth}px`,
         } as any
       }
-      className="relative z-0 flex h-screen overflow-hidden print:h-auto print:overflow-auto"
+      className="glass-ground relative z-0 flex h-screen overflow-hidden print:h-auto print:overflow-auto"
       onContextMenu={preventDefault}
       id={ROOT_CONTAINER_ID}
     >
